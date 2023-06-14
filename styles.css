@@ -1,0 +1,83 @@
+
+.form-control{
+  clip-path: polygon(0 0, 100% 0, 94% 100%, 0% 100%);
+  background-color: #f5f5f5;
+border-color: 1px solid #84be16;
+}
+.clip{
+  clip-path: polygon(0 0, 80% 0%, 68% 100%, 0% 100%);
+  background-color: #e6e1e1;
+  border-color: 1px solid #84be16;
+}
+/* .clip > .success{
+  outline: 1px solid red
+
+} */
+input[type=radio]{
+}
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
+body{
+  /* background-color: #eee; */
+  background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+  font-family: 'Montserrat', sans-serif;
+}
+.calc-table .block-heading {
+  padding-top: 50px;
+  margin-bottom: 40px;
+  text-align: center; 
+}
+
+.calc-table .block-heading h2 {
+  color: #84be16;
+}
+
+.calc-table .block-heading p {
+  text-align: center;
+  max-width: 420px;
+  margin: auto;
+  opacity: 0.7; 
+}
+
+.calc-table .heading {
+  text-align: center;
+  padding-bottom: 10px;
+  /* border-bottom: 1px dashed rgba(0, 0, 0, 0.1);  */
+  margin-bottom:10px;
+}
+
+.calc-table .item {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+  border-top: 2px solid #84be16;
+  padding: 30px;
+  overflow: hidden;
+  position: relative; 
+}
+
+.calc-table .col-md-5:not(:last-child) .item {
+  margin-bottom: 30px; 
+}
+
+
+
+.calc-table .ribbon {
+  width: 160px;
+  height: 32px;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 2px 3px rgba(136, 136, 136, 0.25);
+  background: #84be16;
+  transform: rotate(45deg);
+  position: absolute;
+  right: -53px;
+  top: 12px;
+  padding-top: 7px; 
+}
+
+.form-control{
+  border-radius: 0;
+}

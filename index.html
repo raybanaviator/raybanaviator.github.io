@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sale-ability Rating</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script
+        src="https://cdn.jsdelivr.net/combine/npm/accounting-js@1.1.1,npm/vue@2.5.16,npm/vue-numeric@2.3.0"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-slider-component@latest/theme/default.css">
+    <script
+        src="https://cdn.jsdelivr.net/npm/vue-slider-component@latest/dist/vue-slider-component.umd.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style type="text/css">
+        body {
+            background: no-repeat top center #faf4f1;
+            background-image: whitesmoke;
+            /* background-color: white; */
+            -webkit-print-color-adjust: exact;
+            background-color: whitesmoke;
+
+        }
+
+        .form-control {
+            border: #84be16;
+            border: .2px solid #84be16;
+            box-shadow: 1px solid #84be16;
+
+        }
+
+        .vue-slider-mark-step {
+            position: absolute;
+            margin-top: 7px;
+            width: .3px;
+            height: 10px;
+            background-color: #6b6a67;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border: 2px solid #84be16;
+        }
+
+        .vue-slider-dot-tooltip-top {
+            top: -1px;
+            left: 31%;
+        }
+
+        .vue-slider-rail {
+            color: white;
+            background-color: white;
+            border: 1px solid rgb(212, 208, 208);
+        }
+
+        .vue-slider-process {
+
+            color: rgb(212, 208, 208);
+            background-color: rgb(212, 208, 208);
+            border: 1px solid rgb(212, 208, 208);
+        }
+
+        .vue-slider-dot-tooltip-text {
+
+            background-color: #84be16;
+
+        }
+
+        .vue-slider-dot-tooltip-inner {
+
+            border-color: #84be16;
+            background-color: #84be16;
+            box-sizing: content-box;
+        }
+
+        .vue-slider-dot-tooltip-inner-top::after {
+            color: #84be16;
+        }
+
+
+
+
+        .vue-slider-dot-handle {
+            background-color: #FFFFFF;
+            width: 18px;
+            height: 18px;
+            margin-top: 6px;
+
+        }
+
+        .bi {
+            font-size: 14px;
+            color: #84be16;
+            background-color: #dfded9;
+
+            padding: 3px;
+            padding-top: 1px;
+            border-radius: 100%;
+
+        }
+
+        .vue-slider-dot--inner {
+
+            border-color: #6b6a67;
+            background-color: #6b6a67;
+            box-sizing: content-box;
+        }
+
+
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: white;
+            color: black;
+            text-align: center;
+            border-radius: 6px;
+            border: 1px solid grey;
+
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        .text-brand {
+            color: #84be16;
+        }
+
+        .bg-brand {
+            background-color: #84be16;
+        }
+
+        .table>tbody>tr>td {
+            vertical-align: middle;
+        }
+
+        .table td {
+            border-top: none;
+        }
+
+        .table th {
+            background: whitesmoke;
+        }
+
+
+
+
+
+        @media print {
+            .bg-secondary th {
+                background-color: #6c757d !important;
+            }
+
+            .bg-primary th {
+                background-color: #007bff !important;
+            }
+
+            .bg-brand th {
+                background-color: #84be16 !important;
+            }
+
+
+
+        }
+    </style>
+    <script
+        src="https://cdn.jsdelivr.net/combine/npm/pretty-checkbox-vue@1.1/dist/pretty-checkbox-vue.min.js,npm/chart.js@2.7.2/dist/Chart.min.js,npm/hchs-vue-charts@1.2.8/dist/vue-charts.min.js,npm/vue@2.5.16"></script>
+</head>
+
+<body>
+
+    <div id="app" class="container calc-table">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="item mt-2 border-link">
+
+                    <div class="row text-center ">
+
+                        <div class="col-sm-6 align-self-center">
+                            <h2 class="card-title text-brand">Bürgergeld Rechner</h2>
+                        </div>
+                    </div>
+                    <hr>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                    <p> </p>
+                                    <div style="font-size: 15px; font-weight:bold;">Wie alt sind Sie?
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <vue-slider :min="18" :max="99" :interval="1" :precision="2" :height="8"
+                                            :tooltip-formatter="formatter0" class="mt-2" ref="slider" v-model="D4"
+                                            :dot-size="32" :tooltip="'always'">
+                                        </vue-slider>
+
+
+
+                                    </div>
+                                    <div class="col-md-3 text-center pr-5">
+                                        <vue-numeric v-model="D4" currency-symbol-position="suffix" :min="18" :max="99"
+                                            class=" mt-1 form-control">
+                                        </vue-numeric>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 ml-2 row">
+                                <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                    <p> 2. Lebenssituation</p>
+                                </div>
+                                <div class="col-md-4 option p-2">
+                                    <p-radio color="success" name="xyz" class="p-pulse p-round p-bigger p-default"
+                                        :value="1" v-model="C8">Single/ Alleinerziehende/r</p-radio>
+                                </div>
+                                <div class="col-md-4 option p-2">
+                                    <p-radio color="success" name="xyz" class="p-pulse p-round p-bigger p-default"
+                                        :value="4" v-model="C8">in stationärer Einrichtung </p-radio>
+                                </div>
+                                <div class="col-md-4 option p-2">
+                                    <p-radio color="success" name="xyz" class="p-pulse p-round p-bigger p-default"
+                                        :value="2" v-model="C8">mit Partner/in </p-radio>
+                                </div>
+                                <!-- <div class="col-md-3 option p-2">
+                                    <p-radio color="success" class="p-pulse p-round p-bigger p-default" value="3"
+                                        v-model="C8">unter 25Jahre alt</p-radio>
+                                </div> -->
+                                <div class="col-md-6 option">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="font-size: 15px; font-weight:bold;"> 3a. Sind Sie Schwanger?
+                                            </p>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6   clip C10a1Function"
+                                            style="height:30px;border-color: 1px solid #84be16;" @click="C10a1Function">
+                                            <p style="font-weight:normal;">
+                                                ja
+                                            </p>
+                                            <!-- <p-radio color="success"  class="p-pulse p-round p-bigger p-default"
+                                                value="1" v-model="C10a">ja </p-radio> -->
+                                        </div>
+                                        <div class="col-md-6  clip C10a2Function"
+                                            style="height:30px;border-color: 1px solid #84be16; background-color: #84be16; color: white;"
+                                            @click="C10a2Function">
+                                            <p style="font-weight:normal;"> nein </p>
+                                            <!-- <p-radio color="success"
+                                                class="p-pulse p-round p-bigger p-default text-right" value="0"
+                                                v-model="C10a">nein</p-radio> -->
+                                        </div>
+                                    </div>
+                                    <!-- <p style="font-size: 15px; font-weight:bold;"> 3a. Sind Sie Schwanger?</p>
+                                        <p-radio color="success" class="p-pulse p-round p-bigger p-default" value="1"
+                                            v-model="C10a">ja </p-radio>
+                                        <p-radio color="success" class="p-pulse p-round p-bigger p-default text-right"
+                                            value="0" v-model="C10a">nein</p-radio> -->
+                                </div>
+                                <div class="col-md-6 option">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="font-size: 15px; font-weight:bold;">3b. Liegt eine Behinderung
+                                                vor?
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 clip C10b1Function"
+                                            style="height:30px;border-color: 1px solid #84be16;" @click="C10b1Function">
+                                            <p style="font-weight:normal;"> ja</p>
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="1" v-model="C10b">ja </p-radio> -->
+                                        </div>
+                                        <div class="col-md-6 clip C10b2Function"
+                                            style="height:30px;border-color: 1px solid #84be16; background-color: #84be16; color: white;"
+                                            @click="C10b2Function">
+                                            <p style="font-weight:normal;"> nein</p>
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="0" v-model="C10b">nein</p-radio> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 option">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="font-size: 15px; font-weight:bold;">3c.
+                                                Besondere/kostenaufwendige
+                                                Ernährung?</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6  clip C10c1Function"
+                                            style="height:30px;border-color: 1px solid #84be16;" @click="C10c1Function">
+                                            <p>ja</p>
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="1" v-model="C10c">ja </p-radio> -->
+                                        </div>
+                                        <div class="col-md-6  clip C10c2Function"
+                                            style="height:30px;border-color: 1px solid #84be16; background-color: #84be16;color: white;"
+                                            @click="C10c2Function">
+                                            <p>nein</p>
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="0" v-model="C10c">nein</p-radio> -->
+                                        </div>
+                                    </div>
+                                    <!-- <p style="font-size: 15px; font-weight:bold;"> 3a. Sind Sie Schwanger?</p>
+                                        <p-radio color="success" class="p-pulse p-round p-bigger p-default" value="1"
+                                            v-model="C10a">ja </p-radio>
+                                        <p-radio color="success" class="p-pulse p-round p-bigger p-default text-right"
+                                            value="0" v-model="C10a">nein</p-radio> -->
+                                </div>
+                                <div class="col-md-6 option p-3">
+                                    <div v-if="C10c==1" class="pt-3">
+                                        <select class=" form-control form-select" aria-label="Default select example"
+                                            v-model="H13">
+                                            <option selected>Open this select menu</option>
+                                            <option value="Mukoviszidose">Mukoviszidose</option>
+                                            <option value="Zöliakie">Zöliakie</option>
+                                            <option value="Tumorerkrankungen">Tumorerkrankungen</option>
+                                            <option value="Chronisch obstruktive Lungenerkrankungen (COPD)">
+                                                Chronisch obstruktive Lungenerkrankungen (COPD)</option>
+                                            <option value="CED (Morbus Crohn, Collitis Ulcerosa)">CED (Morbus Crohn,
+                                                Collitis Ulcerosa)</option>
+                                            <option value="Neurologische Erkrankungen (auch Schluckstörungen)">
+                                                Neurologische Erkrankungen (auch Schluckstörungen)</option>
+                                            <option value="Chronisch obstruktive Lungenerkrankungen (COPD)">
+                                                Chronisch obstruktive Lungenerkrankungen (COPD)</option>
+                                            <option
+                                                value="terminale und präterminale Niereninsuffizienz, insb. bei Dialyse">
+                                                terminale und präterminale Niereninsuffizienz, insb. bei Dialyse
+                                            </option>
+                                            <option value="Wundheilungsstörungen">Wundheilungsstörungen</option>
+                                            <option
+                                                value="Lebererkrankungen (z.B. alkoholische Steatohepatitis, Leberzirrhose)">
+                                                Lebererkrankungen (z.B. alkoholische Steatohepatitis, Leberzirrhose)
+                                            </option>
+                                            <option value="Terminale Niereninsuffizienz mit Dialysetherapie">
+                                                Terminale Niereninsuffizienz mit Dialysetherapie</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 option">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="font-size: 15px; font-weight:bold;"> Warmwassergewinnung über
+                                                Heizung?
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6  clip C331Function"
+                                            style="height:30px;border-color: 1px solid #84be16;" @click="C331Function">
+                                            <p>ja</p>
+
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="1" v-model="C33">ja </p-radio> -->
+
+                                        </div>
+                                        <div class="col-md-6  clip C332Function"
+                                            style="height:30px;border-color: 1px solid #84be16;background-color: #84be16;color: white;"
+                                            @click="C332Function">
+                                            <p>nein</p>
+
+                                            <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                value="0" v-model="C33">nein</p-radio> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12" v-if="C8==2">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Wie alt ist Ihr
+                                                Lebenspartner?
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="1" :max="99" 
+                                                    :height="8" class="mt-2" ref="slider" v-model="C15" :dot-size="32"
+                                                    :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="1" :max="99" v-model="C15"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Wieviele Kinder haben
+                                                Sie?
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="8" :step="0.01" :precision="2"
+                                                    @change="BindValueWithBussiness()" :height="8" class="mt-2"
+                                                    ref="slider" v-model="C17" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="8" v-model="C17"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <table id="table1" class="table table-sm table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>0-5</th>
+                                            <th>6-13</th>
+                                            <th>14-17</th>
+                                            <th>18-24</th>
+                                            <th>
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr v-show="i<C17" v-for="(x ,i) in Business">
+                                            <td>Alter Kind {{i+1}}</td>
+                                            <td>
+
+                                                <div class="col-md-3 option p-2">
+                                                    <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                        :value="1" v-model="x.Child1"> </p-radio>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-3 option p-2">
+                                                    <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                        :value="2" v-model="x.Child1"> </p-radio>
+                                                </div>
+
+                                            </td>
+                                            <td>
+                                                <div class="col-md-3 option p-2">
+                                                    <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                        :value="3" v-model="x.Child1"> </p-radio>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="col-md-3 option p-2">
+                                                    <p-radio color="success" class="p-pulse p-round p-bigger p-default"
+                                                        :value="4" v-model="x.Child1"> </p-radio>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <!-- <button v-if="i==Business.length-1" @click="addBusiness"
+                                                    class="btn btn-action btn-outline-success"> &#43; </button> -->
+                                                <button @click="RemoveItem(i,x)"
+                                                    class="btn btn-action btn-outline-danger">
+                                                    -
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Kalte Betriebskosten
+                                                monatlich
+                                                (Kaltmiete + Nebenkosten)
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="3000" :step="0.01"  :precision="2" :height="8"
+                                                    :tooltip-formatter="formatter2" class="mt-2" ref="slider"
+                                                    v-model="C29" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="3000" thousand-separator="."  v-model="C29" currency="€"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">
+                                                Heizkosten monatlich
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="400" :step="0.01" :precision="2" :height="8"
+                                                    :tooltip-formatter="formatter2" class="mt-2" ref="slider"
+                                                    v-model="C31" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="400" v-model="C31" currency="€"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Einkünfte (netto)
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="3000" thousand-separator="."  :step="0.01" :precision="2" :height="8"
+                                                    :tooltip-formatter="formatter2" class="mt-2" ref="slider"
+                                                    v-model="C36" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="3000" thousand-separator="."  v-model="C36" currency="€"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Einkünfte Partner/in
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="3000" thousand-separator="."  :step="0.01" :precision="2" :height="8"
+                                                    :tooltip-formatter="formatter2" class="mt-2" ref="slider"
+                                                    v-model="C38" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="3000" thousand-separator="."  v-model="C38" currency="€"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-12">
+                                    <p style="font-size: 15px; font-weight:bold;"> Beziehen Sie und/oder Ihr
+                                        Partner/in Rente?
+                                    </p>
+
+                                </div>
+                                <div class="col-md-2  clip C401Function"
+                                    style="height:30px;border-color: 1px solid #84be16;" @click="C401Function">
+                                    <p>ja</p>
+                                </div>
+                                <div class="col-md-2  clip C402Function"
+                                    style="height:30px;border-color: 1px solid #84be16;background-color: #84be16;color: white;"
+                                    @click="C402Function">
+                                    <p>nein</p>
+                                </div>
+                                <!-- <p-radio color="success" class="p-pulse p-round p-bigger p-default" value="1"
+                                    v-model="C40">ja </p-radio>
+                                <p-radio color="success" class="p-pulse p-round p-bigger p-default" value="0"
+                                    v-model="C40">nein</p-radio> -->
+                                <div class="col-md-8 option p-3">
+                                    <div class="row" v-if="C40==1">
+                                        <div class="col-md-8">
+                                            <vue-slider :min="0" :max="3000" :step="0.01" thousand-separator="."  :precision="2" :height="8"
+                                                :tooltip-formatter="formatter2" class="mt-2" ref="slider" v-model="C41"
+                                                :dot-size="32" :tooltip="'always'">
+                                            </vue-slider>
+                                        </div>
+                                        <div class="col-md-4 text-center pr-5">
+                                            <vue-numeric :min="0" :max="3000" thousand-separator="."  v-model="C41" currency="€"
+                                                currency-symbol-position="suffix" class=" mt-1 form-control">
+                                            </vue-numeric>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12" v-if="Business.length>=1 && Business.length <=8">
+                                    <div class="row">
+                                        <div class="col-md-12  p-2 " style="font-size: 15px; font-weight:bold;">
+                                            <p> </p>
+                                            <div style="font-size: 15px; font-weight:bold;">Wieviel Kindergeld
+                                                erhalten Sie?
+
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <vue-slider :min="0" :max="3000" thousand-separator="."  :step="0.01" :precision="2" :height="8"
+                                                    :tooltip-formatter="formatter2" class="mt-2" ref="slider"
+                                                    v-model="C44" :dot-size="32" :tooltip="'always'">
+                                                </vue-slider>
+                                            </div>
+                                            <div class="col-md-4 text-center pr-5">
+                                                <vue-numeric :min="0" :max="3000" thousand-separator="."  v-model="C44" currency="€"
+                                                    currency-symbol-position="suffix" class=" mt-1 form-control">
+                                                </vue-numeric>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row" hidden>
+
+
+                                    <table id="tableSecondLast" class="table">
+                                        <thead>
+                                            <td> <strong> Regelsatz</strong></td>
+                                            <td> </td>
+                                            <td> <strong>Mehrbedarf </strong></td>
+                                            <td> </td>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> Antragsteller</td>
+                                                <td>{{D59}} € </td>
+                                                <td> Single/Alleinerziehend</td>
+                                                <td> {{F59}} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td> Partner/in</td>
+                                                <td>{{D60}} €</td>
+                                                <td>Schwanger</td>
+                                                <td>{{F60}} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td> Kinder</td>
+                                                <td>{{D61}} €</td>
+                                                <td>Behinderung</td>
+                                                <td>{{F61}} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td> </td>
+                                                <td></td>
+                                                <td> besondere Ernährung</td>
+                                                <td>{{F62}} €</td>
+                                            </tr>
+                                        <tfoot>
+                                            <th style="font-weight: bold;">Total </th>
+                                            <td>{{D62}} €</td>
+                                            <th style="font-weight: bold;">Total</th>
+                                            <td>{{F63}} €</td>
+                                        </tfoot>
+                                        </tbody>
+                                    </table>
+                                    <table id="tableLast1">
+                                        <tbody>
+                                            <thead>
+                                                <td><strong> Einkünfte</strong> </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </thead>
+                                            <tr>
+                                                <td> Einkommen/ Verdienst (Antragsteller& Partner/in) </td>
+                                                <td>{{D65}} €</td>
+                                                <td>Unterkunftskosten</td>
+                                                <td>{{F65}} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td> Freibetrag (je einzeln zu gewähren) </td>
+                                                <td>{{D66}} €</td>
+                                                <td>Heizkosten</td>
+                                                <td>{{F66}} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kindergeld </td>
+                                                <td>{{D67}} €</td>
+                                                <td>Abzug Warmwassergewinnug</td>
+                                                <td>{{F67}} €</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row" hidden>
+
+                                    <div class="row">
+                                        <div class="col-md-3"> <strong> Regelsatz</strong></div>
+                                        <div class="col-md-3"> </div>
+                                        <div class="col-md-3"> <strong>Mehrbedarf </strong></div>
+                                        <div class="col-md-3"> </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> Antragsteller</div>
+                                        <div class="col-md-3">{{D59}} € </div>
+                                        <div class="col-md-3"> Single/Alleinerziehend</div>
+                                        <div class="col-md-3"> {{F59}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> Partner/in</div>
+                                        <div class="col-md-3">{{D60}} €</div>
+                                        <div class="col-md-3">Schwanger</div>
+                                        <div class="col-md-3">{{F60}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> Kinder</div>
+                                        <div class="col-md-3">{{D61}} €</div>
+                                        <div class="col-md-3">Behinderung</div>
+                                        <div class="col-md-3">{{F61}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3"> besondere Ernährung</div>
+                                        <div class="col-md-3">{{F62}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">Total </div>
+                                        <div class="col-md-3">{{D62}} €</div>
+                                        <div class="col-md-3">Total</div>
+                                        <div class="col-md-3">{{F63}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"><strong> Einkünfte</strong> </div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> Einkommen/ Verdienst (Antragsteller& Partner/in) </div>
+                                        <div class="col-md-3">{{D65}} €</div>
+                                        <div class="col-md-3">Unterkunftskosten</div>
+                                        <div class="col-md-3">{{F65}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3"> Freibetrag (je einzeln zu gewähren) </div>
+                                        <div class="col-md-3">{{D66}} €</div>
+                                        <div class="col-md-3">Heizkosten</div>
+                                        <div class="col-md-3">{{F66}} €</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">Kindergeld </div>
+                                        <div class="col-md-3">{{D67}} €</div>
+                                        <div class="col-md-3">Abzug Warmwassergewinnug</div>
+                                        <div class="col-md-3">{{F67}} €</div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card shadow-sm text-center">
+                                            <h5 class="pt-3 pb-2 "> Regelsatz </h5>
+                                            <vue-numeric read-only :value="D71" thousand-separator="." :precision="0" read-only currency="€"
+                                                currency-symbol-position="suffix" class=" form-control text-muted" style="font-size: 22px; font-weight: bold;">
+                                            </vue-numeric>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card shadow-lg text-center">
+                                            <h5 class="pt-3 pb-2 "> Mehrbedarf </h5>
+                                            <vue-numeric read-only :value="D72" thousand-separator="." :precision="0" read-only currency="€"
+                                                currency-symbol-position="suffix" class=" form-control text-muted" style="font-size: 22px; font-weight: bold;">
+                                            </vue-numeric>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card shadow-lg text-center">
+                                            <h5 class="pt-3 pb-2 "> Einkünfte </h5>
+                                            <vue-numeric read-only :value="D73" thousand-separator="." :precision="0" read-only currency="€"
+                                                currency-symbol-position="suffix" class=" form-control text-muted" style="font-size: 22px; font-weight: bold;">
+                                            </vue-numeric>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card shadow-lg text-center">
+                                            <h5 class="pt-3 pb-2 "> Wohnung (Kosten der Unterkunft) </h5>
+                                            <vue-numeric read-only :value="D74" thousand-separator="." :precision="0" read-only currency="€"
+                                                currency-symbol-position="suffix" class=" form-control text-muted" style="font-size: 22px; font-weight: bold;">
+                                            </vue-numeric>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-1"> </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="card shadow-lg text-center">
+                                            <h5 class="pt-3 pb-2 " style="color: #84be16;">Bürgergeld </h5>
+                                            <vue-numeric :value="D75" thousand-separator="." :precision="0" read-only currency="€"
+                                                currency-symbol-position="suffix" class=" form-control text-muted" style="font-size: 22px; font-weight: bold;color: #84be16;">
+                                            </vue-numeric>
+                                        </div>
+                                        <div class="col-md-3 mb-1"> </div>
+                                    </div>
+                                    <div class="col-md-12" hidden>
+                                        <div class="table-reponsive">
+                                            <table id="tableLast" class="table text-center">
+                                                <thead hidden>
+                                                    <tr>
+                                                        <th>Total anzurechnende Einkünfte</th>
+                                                        <th>{{D68}} €</th>
+                                                        <th>Total Wohnung</th>
+                                                        <th>{{F68}} €</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td colspan="2"> Regelsatz </td>
+                                                        <td colspan="2">
+                                                            <vue-numeric :value="D71" :precision="0" read-only
+                                                                currency="€" currency-symbol-position="suffix"
+                                                                class=" mt-1 form-control">
+                                                            </vue-numeric>
+                                                            <!-- {{D71}} € -->
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"> Mehrbedarf </td>
+                                                        <td colspan="2">
+                                                            <vue-numeric :value="D72" :precision="0" read-only
+                                                                currency="€" currency-symbol-position="suffix"
+                                                                class=" mt-1 form-control">
+                                                            </vue-numeric>
+                                                            <!-- {{D72}} € -->
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"> Einkünfte </td>
+                                                        <td colspan="2">
+                                                            <vue-numeric :value="D73" :precision="0" read-only
+                                                                currency="€" currency-symbol-position="suffix"
+                                                                class=" mt-1 form-control">
+                                                            </vue-numeric>
+                                                            <!-- {{D73}} € -->
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"> Wohnung (Kosten der Unterkunft) </td>
+                                                        <td colspan="2">
+                                                            <vue-numeric :value="D74" :precision="0" read-only
+                                                                currency="€" currency-symbol-position="suffix"
+                                                                class=" mt-1 form-control">
+                                                            </vue-numeric>
+                                                            <!-- {{D74}} € -->
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="2" style="color: #78a81f; font-size: 20px;">
+                                                            <strong>Bürgergeld</strong>
+                                                        </td>
+                                                        <td colspan="2" style="color: #77a720; font-size: 20px;">{{D75}}
+                                                            €</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row mb-3 mt-3">
+                                        <div class="col-md-12 text-center">
+                                            <div class="btn-group">
+                                                <button class=" btn mx-1 "
+                                                    style="background-color: #6a9912;color:white;"
+                                                    @click="DownloadPDF"><i class="fa fa-arrow-down p-0"
+                                                        style="font-size: 17px;"></i> Download PDF</button>
+                                                <button class="  btn btn-secondary" @click="ResetVal"> <i
+                                                        class="fa fa-refresh" style="font-size: 17px;"></i>
+                                                    Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <v-chart autoresize style="width:100%;height:400px;" :option="chart1" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.4.3"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/vue-echarts@6.0.2"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"
+                        type="text/javascript"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"
+                        type="text/javascript"></script>
+                    <script
+                        src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.0.2/jspdf.plugin.autotable.min.js"></script>
+                    <script src="./script.js"></script>
+</body>
+
+</html>
